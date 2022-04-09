@@ -11,5 +11,6 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<NationalPark> NationalParks { get; set; } = null!;
+    public DbSet<Trail> Trails { get; set; } = null!;
 
 }

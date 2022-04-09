@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.AddAutoMapper(typeof(ParkyMappings)); //typeof(ParkyMappings).Assembly
 builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
+builder.Services.AddScoped<ITrailRepository, TrailRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
