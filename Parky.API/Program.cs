@@ -37,21 +37,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(
-    //    options =>
-    //{
-    //    foreach (var desc in provider.ApiVersionDescriptions)
-    //        options.SwaggerEndpoint($"/swagger/{desc.GroupName}/swagger.json",
-    //            desc.GroupName.ToUpperInvariant());
-    //    options.RoutePrefix = "";
-    //}
-    );
+    app.UseSwaggerUI(c =>
+    {
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
+        {
+            c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();

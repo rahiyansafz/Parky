@@ -8,6 +8,7 @@ namespace Parky.API.Controllers;
 
 [Route("api/v{version:apiVersion}/nationalparks")]
 //[Route("api/[controller]")]
+[ApiVersion("1.0")]
 [ApiController]
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
 public class NationalParksController : ControllerBase
