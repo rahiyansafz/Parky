@@ -8,7 +8,8 @@ namespace Parky.API.Controllers;
 [Route("api/v{version:apiVersion}/nationalparks")]
 [ApiVersion("2.0")]
 [ApiController]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[Consumes("application/json")]
+[Produces("application/json")]
 public class NationalParksV2Controller : ControllerBase
 {
     private readonly INationalParkRepository _nationalParkRepository;

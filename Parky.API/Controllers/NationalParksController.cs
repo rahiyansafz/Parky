@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Parky.API.Models;
 using Parky.API.Models.Dtos;
 using Parky.API.Repository.IRepository;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Parky.API.Controllers;
 
@@ -10,7 +11,8 @@ namespace Parky.API.Controllers;
 //[Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[Consumes("application/json")]
+[Produces("application/json")]
 public class NationalParksController : ControllerBase
 {
     private readonly INationalParkRepository _nationalParkRepository;
@@ -27,7 +29,11 @@ public class NationalParksController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(200, Type = typeof(List<NationalParkDto>))]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<NationalParkDto>))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult GetNationalParks()
     {
         var objList = _nationalParkRepository.GetNationalParks();
@@ -45,10 +51,11 @@ public class NationalParksController : ControllerBase
     /// <param name="nationalParkId"> The Id of the national Park </param>
     /// <returns></returns>
     [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
-    [ProducesResponseType(200, Type = typeof(NationalParkDto))]
-    [ProducesResponseType(404)]
-    //[Authorize]
-    [ProducesDefaultResponseType]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(NationalParkDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult GetNationalPark(int nationalParkId)
     {
         var obj = _nationalParkRepository.GetNationalPark(nationalParkId);
@@ -68,10 +75,11 @@ public class NationalParksController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(NationalParkDto))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(NationalParkDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult CreateNationalPark([FromBody] NationalParkDto nationalParkDto)
     {
         if (nationalParkDto is null)

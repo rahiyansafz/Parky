@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Parky.API.Models;
 using Parky.API.Models.Dtos;
 using Parky.API.Repository.IRepository;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Parky.API.Controllers;
 
-//[Route("api/Trails")]
 [Route("api/v{version:apiVersion}/trails")]
+//[Route("api/Trails")]
+[ApiVersion("1.0")]
 [ApiController]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[Consumes("application/json")]
+[Produces("application/json")]
 public class TrailsController : ControllerBase
 {
     private readonly ITrailRepository _trailRepository;
@@ -27,7 +30,11 @@ public class TrailsController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(200, Type = typeof(List<TrailDto>))]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<TrailDto>))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public IActionResult GetTrails()
     {
         var objList = _trailRepository.GetTrails();
@@ -46,9 +53,11 @@ public class TrailsController : ControllerBase
     /// <param name="trailId"> The id of the trail </param>
     /// <returns></returns>
     [HttpGet("{trailId:int}", Name = "GetTrail")]
-    [ProducesResponseType(200, Type = typeof(TrailDto))]
-    [ProducesResponseType(404)]
-    [ProducesDefaultResponseType]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(TrailDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     //[Authorize(Roles = "Admin")]
     public IActionResult GetTrail(int trailId)
     {
@@ -63,9 +72,11 @@ public class TrailsController : ControllerBase
     }
 
     [HttpGet("[action]/{nationalParkId:int}")]
-    [ProducesResponseType(200, Type = typeof(TrailDto))]
-    [ProducesResponseType(404)]
-    [ProducesDefaultResponseType]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(TrailDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public IActionResult GetTrailInNationalPark(int nationalParkId)
     {
         var objList = _trailRepository.GetTrailsInNationalPark(nationalParkId);
@@ -83,10 +94,11 @@ public class TrailsController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(TrailDto))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(TrailDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
     public IActionResult CreateTrail([FromBody] TrailCreateDto trailDto)
     {
         if (trailDto is null)
