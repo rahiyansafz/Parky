@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Parky.API.Models.Dtos.TrailDto;
+using static Parky.API.Models.Trail;
 
 namespace Parky.API.Models.Dtos;
 

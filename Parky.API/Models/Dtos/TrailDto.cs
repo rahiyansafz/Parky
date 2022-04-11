@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static Parky.API.Models.Trail;
 
 namespace Parky.API.Models.Dtos;
 
@@ -9,12 +10,10 @@ public class TrailDto
     public string Name { get; set; } = string.Empty;
     [Required]
     public double Distance { get; set; }
-    public enum DifficultyType { Easy, Moderate, Difficult, Expert }
-    [Required]
-    public double Elevation { get; set; }
     public DifficultyType Difficulty { get; set; }
     [Required]
     public int NationalParkId { get; set; }
     public NationalParkDto NationalPark { get; set; } = null!;
-    public DateTime DateCreated { get; set; }
+    [Required]
+    public double Elevation { get; set; }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Parky.API.Models.Dtos;
+namespace Parky.Web.Models;
 
-public class NationalParkDto
+public class NationalPark
 {
     public int Id { get; set; }
     [Required]
