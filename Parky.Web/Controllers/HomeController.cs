@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Parky.Web.Models;
+using Parky.Web.Models.ViewModel;
 using Parky.Web.Repository.IRepository;
 using System.Diagnostics;
 
@@ -19,9 +20,14 @@ public class HomeController : Controller
         _trailRepository = trailRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        IndexVM listOfParksAndTrails = new IndexVM()
+        {
+            NationalParkList = await _nationalParkRepository.GetAllAsync(SD.NationalParkAPIPath, HttpContext.Session.GetString("JWToken")!),
+            TrailList = await _trailRepository.GetAllAsync(SD.TrailAPIPath, HttpContext.Session.GetString("JWToken")!),
+        };
+        return View(listOfParksAndTrails);
     }
 
     public IActionResult Privacy()
