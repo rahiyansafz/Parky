@@ -38,7 +38,7 @@ namespace Parky.Web.Controllers
                 Trail = new Trail()
             };
 
-            if (id == null)
+            if (id is null)
             {
                 //this will be true for Insert/Create
                 return View(objVM);
@@ -46,7 +46,7 @@ namespace Parky.Web.Controllers
 
             //Flow will come here for update
             objVM.Trail = await _trailRepository.GetAsync(SD.TrailAPIPath, id.GetValueOrDefault(), HttpContext.Session.GetString("JWToken")!);
-            if (objVM.Trail == null)
+            if (objVM.Trail is null)
             {
                 return NotFound();
             }
