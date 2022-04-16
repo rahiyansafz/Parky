@@ -28,7 +28,7 @@ namespace Parky.Web.Controllers
         {
             IEnumerable<NationalPark> npList = await _nationalParkRepository.GetAllAsync(SD.NationalParkAPIPath, HttpContext.Session.GetString("JWToken")!);
 
-            TrailsVM objVM = new TrailsVM()
+            TrailsVM objVM = new()
             {
                 NationalParkList = npList.Select(i => new SelectListItem
                 {
@@ -74,7 +74,7 @@ namespace Parky.Web.Controllers
             {
                 IEnumerable<NationalPark> npList = await _nationalParkRepository.GetAllAsync(SD.NationalParkAPIPath, HttpContext.Session.GetString("JWToken")!);
 
-                TrailsVM objVM = new TrailsVM()
+                TrailsVM objVM = new()
                 {
                     NationalParkList = npList.Select(i => new SelectListItem
                     {

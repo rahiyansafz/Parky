@@ -24,10 +24,6 @@ public class NationalParksController : ControllerBase
         _mapper = mapper;
     }
 
-    /// <summary>
-    /// Get list of national parks.
-    /// </summary>
-    /// <returns></returns>
     [HttpGet]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<NationalParkDto>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
@@ -45,12 +41,8 @@ public class NationalParksController : ControllerBase
         return Ok(objDto);
     }
 
-    /// <summary>
-    /// Get individual national park
-    /// </summary>
-    /// <param name="nationalParkId"> The Id of the national Park </param>
-    /// <returns></returns>
     [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
+    //[Authorize]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(NationalParkDto))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
     [SwaggerResponse(StatusCodes.Status409Conflict)]
