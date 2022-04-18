@@ -30,4 +30,23 @@ public class UsersController : ControllerBase
         }
         return Ok(user);
     }
+
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] User model) // AuthenticationModel
+    {
+        bool ifUserNameUnique = _userRepository.IsUniqueUser(model.Username);
+        if (!ifUserNameUnique)
+        {
+            return BadRequest(new { message = "Username already exists" });
+        }
+        var user = _userRepository.Register(model.Username, model.Password);
+
+        if (user is null)
+        {
+            return BadRequest(new { message = "Error while registering" });
+        }
+
+        return Ok();
+    }
 }

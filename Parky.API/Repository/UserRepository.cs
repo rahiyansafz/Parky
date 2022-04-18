@@ -52,11 +52,27 @@ public class UserRepository : IUserRepository
 
     public bool IsUniqueUser(string username)
     {
-        throw new NotImplementedException();
+        var user = _applicationDbContext.Users.SingleOrDefault(x => x.Username == username);
+
+        // return null if user not found
+        if (user is null)
+            return true;
+
+        return false;
     }
 
     public User Register(string username, string password)
     {
-        throw new NotImplementedException();
+        User userObj = new()
+        {
+            Username = username,
+            Password = password,
+            Role = "Admin"
+        };
+
+        _applicationDbContext.Users.Add(userObj);
+        _applicationDbContext.SaveChanges();
+        userObj.Password = "";
+        return userObj;
     }
 }
