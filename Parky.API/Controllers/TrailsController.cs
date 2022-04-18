@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Parky.API.Models;
 using Parky.API.Models.Dtos;
@@ -58,7 +59,7 @@ public class TrailsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status409Conflict)]
     [SwaggerResponse(StatusCodes.Status500InternalServerError)]
     [SwaggerResponse(StatusCodes.Status503ServiceUnavailable)]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetTrail(int trailId)
     {
         var obj = _trailRepository.GetTrail(trailId);
