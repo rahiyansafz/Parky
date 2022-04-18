@@ -1,7 +1,18 @@
 using Parky.Web.Repository;
 using Parky.Web.Repository.IRepository;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                          });
+});
 
 // Add services to the container.
 builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
@@ -15,8 +26,10 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    // Set a short timeout for easy testing.
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
     options.Cookie.HttpOnly = true;
+    // Make the session cookie essential
     options.Cookie.IsEssential = true;
 });
 
@@ -35,6 +48,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

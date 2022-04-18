@@ -11,13 +11,15 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly INationalParkRepository _nationalParkRepository;
     private readonly ITrailRepository _trailRepository;
+    private readonly IAccountRepository _accountRepository;
 
     public HomeController(ILogger<HomeController> logger, INationalParkRepository nationalParkRepository,
-            ITrailRepository trailRepository) // IAccountRepository accountRepository
+            ITrailRepository trailRepository, IAccountRepository accountRepository)
     {
         _logger = logger;
         _nationalParkRepository = nationalParkRepository;
         _trailRepository = trailRepository;
+        _accountRepository = accountRepository;
     }
 
     public async Task<IActionResult> Index()
