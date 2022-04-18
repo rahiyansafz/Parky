@@ -74,4 +74,36 @@ public class HomeController : Controller
         TempData["alert"] = "Welcome " + objUser.Username;
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(User obj)
+    {
+        bool result = await _accountRepository.RegisterAsync(SD.AccountAPIPath + "register/", obj);
+        if (result is false)
+        {
+            return View();
+        }
+        TempData["alert"] = "Registeration Successful";
+        return RedirectToAction("Login");
+    }
+
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
+        HttpContext.Session.SetString("JWToken", "");
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }
