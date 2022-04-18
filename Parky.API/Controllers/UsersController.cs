@@ -21,7 +21,7 @@ public class UsersController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("authenticate")]
-    public IActionResult Authenticate([FromBody] User model) // AuthenticationModel
+    public IActionResult Authenticate([FromBody] AuthenticationModel model)
     {
         var user = _userRepository.Authenticate(model.Username, model.Password);
         if (user is null)
@@ -33,7 +33,7 @@ public class UsersController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public IActionResult Register([FromBody] User model) // AuthenticationModel
+    public IActionResult Register([FromBody] AuthenticationModel model)
     {
         bool ifUserNameUnique = _userRepository.IsUniqueUser(model.Username);
         if (!ifUserNameUnique)
