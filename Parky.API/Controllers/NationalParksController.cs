@@ -42,7 +42,7 @@ public class NationalParksController : ControllerBase
     }
 
     [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
-    //[Authorize]
+    [Authorize]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(NationalParkDto))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
     [SwaggerResponse(StatusCodes.Status409Conflict)]
