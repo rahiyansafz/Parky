@@ -7,11 +7,11 @@ namespace Parky.Web.Repository;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly IHttpClientFactory _clientFactory;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public Repository(IHttpClientFactory clientFactory)
+    public Repository(IHttpClientFactory httpClientFactory)
     {
-        _clientFactory = clientFactory;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<bool> CreateAsync(string url, T objToCreate, string token = "")
@@ -27,7 +27,7 @@ public class Repository<T> : IRepository<T> where T : class
             return false;
         }
 
-        var client = _clientFactory.CreateClient();
+        var client = _httpClientFactory.CreateClient();
         if (token is not null && token.Length != 0)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -49,7 +49,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, url + Id);
 
-        var client = _clientFactory.CreateClient();
+        var client = _httpClientFactory.CreateClient();
         if (token is not null && token.Length != 0)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -66,7 +66,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-        var client = _clientFactory.CreateClient();
+        var client = _httpClientFactory.CreateClient();
         if (token is not null && token.Length != 0)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -85,7 +85,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var request = new HttpRequestMessage(HttpMethod.Get, url + Id);
 
-        var client = _clientFactory.CreateClient();
+        var client = _httpClientFactory.CreateClient();
         if (token is not null && token.Length != 0)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -113,7 +113,7 @@ public class Repository<T> : IRepository<T> where T : class
             return false;
         }
 
-        var client = _clientFactory.CreateClient();
+        var client = _httpClientFactory.CreateClient();
         if (token is not null && token.Length != 0)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
