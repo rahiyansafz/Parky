@@ -61,7 +61,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (TempData["alert"] != null)
+            @if (TempData["alert"] is not null)
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     @TempData["alert"]

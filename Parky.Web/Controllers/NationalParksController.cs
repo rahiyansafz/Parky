@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Parky.Web.Models;
 using Parky.Web.Repository.IRepository;
 
 namespace Parky.Web.Controllers;
 
+[Authorize]
 public class NationalParksController : Controller
 {
     private readonly INationalParkRepository _nationalParkRepository;
@@ -16,6 +18,26 @@ public class NationalParksController : Controller
     public IActionResult Index()
     {
         return View(new NationalPark() { });
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Upsert(int? id)
+    {
+        NationalPark obj = new();
+
+        if (id is null)
+        {
+            //this will be true for Insert/Create
+            return View(obj);
+        }
+
+        //Flow will come here for update
+        obj = await _nationalParkRepository.GetAsync(SD.NationalParkAPIPath, id.GetValueOrDefault(), HttpContext.Session.GetString("JWToken")!);
+        if (obj is null)
+        {
+            return NotFound();
+        }
+        return View(obj);
     }
 
     [HttpPost]
@@ -65,7 +87,7 @@ public class NationalParksController : Controller
     }
 
     [HttpDelete]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var status = await _nationalParkRepository.DeleteAsync(SD.NationalParkAPIPath, id, HttpContext.Session.GetString("JWToken")!);

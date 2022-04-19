@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Parky.Web.Models;
 using Parky.Web.Models.ViewModel;
@@ -6,7 +7,7 @@ using Parky.Web.Repository.IRepository;
 
 namespace Parky.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class TrailsController : Controller
     {
         private readonly INationalParkRepository _nationalParkRepository;
@@ -23,7 +24,7 @@ namespace Parky.Web.Controllers
             return View(new Trail() { });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Upsert(int? id)
         {
             IEnumerable<NationalPark> npList = await _nationalParkRepository.GetAllAsync(SD.NationalParkAPIPath, HttpContext.Session.GetString("JWToken")!);
